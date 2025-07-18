@@ -1,0 +1,35 @@
+.weather-details-table-container {
+  margin-top: 24px;
+  width: 100%;
+}
+
+.weather-details-day {
+  margin-bottom: 32px;
+}
+
+.weather-details-day-title {
+  font-size: 1.1rem;
+  color: #7fffd4;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+
+.weather-details-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(30,30,30,0.92);
+  color: #fff;
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+
+.weather-details-table th, .weather-details-table td {
+  border: 1px solid #222;
+  padding: 6px 4px;
+  text-align: center;
+}
+
+.weather-details-table th {
+  background: rgba(127,255,212,0.08);
+  color: #7fffd4;
+}

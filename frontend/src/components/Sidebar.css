@@ -1,0 +1,111 @@
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 80px;
+  height: 100vh;
+  background: #18181b;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 32px;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.15);
+  z-index: 100;
+}
+
+.sidebar-logo {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 40px;
+  letter-spacing: 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sidebar-menu li {
+  width: 100%;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.sidebar-menu a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.9rem;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.sidebar-icon {
+  font-size: 32px;
+  margin-bottom: 4px;
+}
+
+.sidebar-label {
+  font-size: 0.75rem;
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.sidebar-menu a:hover,
+.sidebar-menu a.active {
+  color: #7fffd4;
+}
+
+.sidebar-menu a.active {
+  color: #7fffd4; /* Couleur d'accent pour l'icône et le texte */
+}
+
+.sidebar-menu a.active .sidebar-icon {
+  color: #7fffd4;
+}
+
+.sidebar-menu a.active .sidebar-label {
+  color: #7fffd4;
+}
+
+.sidebar-profile {
+  position: absolute;
+  bottom: 80px; /* remonte le profil, ajuste la valeur selon ton besoin */
+  width: 100%;
+  text-align: center;
+}
+
+.sidebar-profile a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 0.9rem;
+  padding: 0;
+  transition: color 0.2s;
+}
+
+.sidebar-profile a:hover,
+.sidebar-profile a.active {
+  color: #7fffd4;
+}
+
+.sidebar-profile a.active .sidebar-icon {
+  color: #7fffd4;
+}
+
+.sidebar-profile a.active .sidebar-label {
+  color: #7fffd4;
+}

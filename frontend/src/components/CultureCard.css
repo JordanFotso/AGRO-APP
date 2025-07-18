@@ -1,0 +1,21 @@
+.culture-card {
+  background: #f8f8f8;
+  border-radius: 10px;
+  /* Ombre plus visible */
+  box-shadow: 0 4px 18px -2px rgba(0,0,0,0.18);
+  padding: 24px;
+  margin: 12px;
+  min-width: 180px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #222;
+  transition: box-shadow 0.2s;
+}
+
+.culture-card:hover {
+  box-shadow: 0 8px 32px -2px rgba(0,0,0,0.22);
+}

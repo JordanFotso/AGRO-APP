@@ -1,0 +1,151 @@
+.sliding-panel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 0;
+  background: rgba(30,30,30,0.95);
+  color: #fff;
+  box-shadow: 2px 0 12px rgba(0,0,0,0.25);
+  transition: width 0.3s cubic-bezier(.4,0,.2,1);
+  z-index: 2000;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.sliding-panel.open {
+  width: 75%;
+  min-width: 240px;
+  max-width: 900px;
+  /* Ajoute overflow-y ici pour le panneau ouvert */
+  overflow-y: auto;
+}
+
+.toggle-btn {
+  position: absolute;
+  top: 16px;
+  right: 0;
+  width: 40px;
+  height: 48px;
+  background: transparent;   /* Pas de fond */
+  border: none;
+  border-radius: 0 8px 8px 0;
+  color: inherit;
+  cursor: pointer;
+  z-index: 2100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  box-shadow: none;          /* Pas d'ombre */
+  transition: background 0.2s, color 0.2s;
+}
+
+/* Hover uniquement sur l'icône SVG */
+.toggle-btn img {
+  transition: filter 0.2s, opacity 0.2s;
+  opacity: 0.7;
+}
+
+.toggle-btn:hover img {
+  filter: brightness(0) saturate(100%) invert(62%) sepia(98%) saturate(749%) hue-rotate(117deg) brightness(102%) contrast(101%);
+  opacity: 1;
+}
+
+.panel-content {
+  padding: 32px 24px;
+  width: 100%;
+  /* Ajoute overflow-y ici aussi pour le contenu */
+  overflow-y: auto;
+  /* Optionnel : limite la hauteur si besoin */
+  max-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Ajoute dans SlidingPanel.css ou Meteo.css */
+.floating-toggle-btn {
+  position: absolute;
+  top: 32px;
+  left: 80px; /* largeur de ta sidebar */
+  z-index: 3000;
+  width: 48px;
+  height: 48px;
+  background: #18181b;      /* Cercle noir */
+  border: none;
+  border-radius: 50%;       /* Cercle parfait */
+  color: inherit;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* Hover uniquement sur l'icône SVG */
+.floating-toggle-btn img {
+  transition: filter 0.2s, opacity 0.2s;
+  opacity: 0.7;
+}
+
+.floating-toggle-btn:hover {
+  background: #232326; /* Légère variation au hover */
+}
+
+.floating-toggle-btn:hover img {
+  filter: brightness(0) saturate(100%) invert(62%) sepia(98%) saturate(749%) hue-rotate(117deg) brightness(102%) contrast(101%);
+  opacity: 1;
+}
+
+/* Ajoute dans SlidingPanel.css */
+.panel-header {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: rgba(30,30,30,0.97);
+  padding: 18px 24px 10px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  border-bottom: 1px solid #222;
+}
+
+.panel-title {
+  margin: 0 0 8px 0;
+  font-size: 1.4rem;
+  color: #7fffd4;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.panel-header-search {
+  width: 100%;
+  max-width: 100%;
+}
+
+/* Ajoute dans SlidingPanel.css ou WeatherForecastTable.css */
+.weather-table-container {
+  margin-top: 24px;
+}
+
+.weather-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: rgba(30,30,30,0.92);
+  color: #fff;
+  font-size: 15px;
+}
+
+.weather-table th, .weather-table td {
+  border: 1px solid #222;
+  padding: 8px 6px;
+  text-align: center;
+}
+
+.weather-table th {
+  background: rgba(127,255,212,0.08);
+  color: #7fffd4;
+}

@@ -1,0 +1,130 @@
+.locate-button {
+  position: absolute;
+  bottom: 16px;  /* 1rem */
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background: white;
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: box-shadow 0.2s ease;
+  z-index: 1000;
+}
+
+.locate-button:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+
+.locate-button:active {
+  transform: scale(0.85);
+  transition: transform 0.15s ease;
+}
+/* Responsive : bouton plus grand sur écrans plus larges */
+@media (min-width: 640px) {
+  .locate-button {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (min-width: 768px) {
+  .locate-button {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+
+.search-container {
+  position: static;      /* plus de position absolue */
+  top: unset;
+  left: unset;
+  transform: none;
+  z-index: 1;
+  width: 100%;           /* prend toute la largeur */
+  max-width: 100%;       /* pas de largeur fixe */
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+  background: rgba(30,30,30,0.85); /* fond sombre et transparent */
+  border-radius: 6px 6px 0 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  border: 1px solid #333;
+}
+
+.search-input {
+  width: 100%;
+  padding: 10px 36px 10px 12px;
+  border: none;
+  background: transparent;
+  color: #fff;
+  font-size: 16px;
+  border-radius: 6px 6px 0 0;
+  outline: none;
+  font-family: inherit;
+}
+
+.search-input::placeholder {
+  color: #bbb;
+  opacity: 1;
+}
+
+.search-loupe-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  height: 100%;
+  width: 36px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #7fffd4;
+  font-size: 22px;
+  transition: color 0.2s;
+}
+
+.search-loupe-btn:hover {
+  color: #fff;
+}
+
+.suggestion-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: rgba(30,30,30,0.92); /* fond sombre et transparent */
+  border: 1px solid #222;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+  color: #fff;
+  font-size: 15px;
+  z-index: 2000;
+  border-radius: 0 0 6px 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.18);
+}
+
+.suggestion-list li {
+  padding: 10px 12px;
+  cursor: pointer;
+  color: #fff;
+  background: transparent;
+  min-height: 24px;
+  font-size: 15px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.suggestion-list li:hover {
+  background-color: rgba(127,255,212,0.15); /* turquoise très pâle au hover */
+  color: #7fffd4;
+}

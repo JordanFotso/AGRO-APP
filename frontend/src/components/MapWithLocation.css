@@ -1,0 +1,76 @@
+.locate-button {
+  position: absolute;
+  bottom: 16px;  /* 1rem */
+  right: 16px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+  background: white;
+  border-radius: 50%;
+  padding: 5px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  transition: box-shadow 0.2s ease;
+  z-index: 1000;
+}
+
+.locate-button:hover {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+}
+
+
+.locate-button:active {
+  transform: scale(0.85);
+  transition: transform 0.15s ease;
+}
+/* Responsive : bouton plus grand sur écrans plus larges */
+@media (min-width: 640px) {
+  .locate-button {
+    width: 48px;
+    height: 48px;
+  }
+}
+
+@media (min-width: 768px) {
+  .locate-button {
+    width: 56px;
+    height: 56px;
+  }
+}
+
+
+.search-container {
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 1000;
+  width: 300px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px 4px 0 0;
+  border: 1px solid #ccc;
+  outline: none;
+}
+
+.suggestion-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background: white;
+  border: 1px solid #ccc;
+  border-top: none;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.suggestion-list li {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestion-list li:hover {
+  background-color: #f0f0f0;
+}
