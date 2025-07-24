@@ -26,7 +26,6 @@ function App() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/meteo" element={<Meteo />} />
-              <Route path="/map" element={<MapWithLocation />} />
               <Route path="/profil" element={<Profil />} />
               {/* Protection de l'accès à Agro */}
               <Route path="/agro" element={<AgroGuard />}>

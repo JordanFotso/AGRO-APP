@@ -1,10 +1,14 @@
 .agro-navbar {
-  width: 100vw;
-  min-width: 100%;
-  background: rgba(30,30,30,0.97);
+  position: fixed;
+  top: 0;
+  left: 80;
+  width: 100vw; /* ou 100% si pas de scroll horizontal */
+  z-index: 1000;
+  box-sizing: border-box;
+  background: #1e1e1e; /* Couleur pleine, sans opacité */
   /* Ombre plus visible et plus douce */
   box-shadow: 0 6px 24px -4px rgba(0,0,0,0.22);
-  padding: 0 0 18px 0;
+  padding: 0 0 0 0;
   border-radius: 0;
   display: flex;
   flex-direction: row;

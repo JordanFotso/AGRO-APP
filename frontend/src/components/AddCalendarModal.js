@@ -52,7 +52,7 @@ function AddCalendarModal({ onClose, onSuccess }) {
         latitude: location.lat,
         longitude: location.lng,
         userId: user.id
-      });
+      });                      
       onSuccess && onSuccess();
       onClose();
     } catch (e) {

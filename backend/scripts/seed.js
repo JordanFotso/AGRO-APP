@@ -17,8 +17,8 @@ async function seed() {
   const user2 = await User.create({ name: 'Alice', email: 'alice@test.com', password });
 
   // Cultures
-  const mais = await Culture.create({ name: 'Riz', description: "Le riz est une céréale de la famille des Poacées (anciennement graminées), cultivée dans les régions tropicales, subtropicales et tempérées chaudes pour son fruit, ou caryopse, riche en amidon. " });
-  const riz = await Culture.create({ name: 'Maïs', description: "Le maïs (Zea mays subsp. mays (autonyme)), couramment appelé blé d’Inde au Canada[1], est une plante herbacée tropicale annuelle de la famille des Poacées (graminées), largement cultivée comme céréale pour ses grains riches en amidon, mais aussi comme plante fourragère. Le terme désigne aussi le grain de maïs lui-même. Bien qu'il soit considéré et cuisiné comme un légume, le maïs est un fruit du fait de son origine botanique[2]. " });
+  const riz = await Culture.create({ name: 'Riz', description: "Le riz est une céréale de la famille des Poacées (anciennement graminées), cultivée dans les régions tropicales, subtropicales et tempérées chaudes pour son fruit, ou caryopse, riche en amidon. " });
+  const mais = await Culture.create({ name: 'Maïs', description: "Le maïs (Zea mays subsp. mays (autonyme)), couramment appelé blé d’Inde au Canada[1], est une plante herbacée tropicale annuelle de la famille des Poacées (graminées), largement cultivée comme céréale pour ses grains riches en amidon, mais aussi comme plante fourragère. Le terme désigne aussi le grain de maïs lui-même. Bien qu'il soit considéré et cuisiné comme un légume, le maïs est un fruit du fait de son origine botanique[2]. " });
 
   // Calendriers (liés à user1)
   const cal1 = await Calendar.create({
@@ -56,6 +56,13 @@ async function seed() {
     date: '2025-04-05',
     status: 'à faire',
     calendarId: cal2.id
+  });
+  await Task.create({
+    title: 'sarclage',
+    description: 'remuer le sol',
+    date: '2025-04-01',
+    status: 'à faire',
+    calendarId: cal1.id
   });
 
   console.log('Seed terminé !');

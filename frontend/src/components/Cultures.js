@@ -5,6 +5,7 @@ import AddCultureCard from './AddCultureCard';
 import CultureInfo from './CultureInfo';
 import { UserContext } from '../UserContext';
 import AddCalendarModal from './AddCalendarModal';
+import './AgroPage.css';
 
 function Cultures() {
   const { user } = useContext(UserContext);
@@ -32,8 +33,8 @@ function Cultures() {
   }, [selectedCalendar]);
 
   return (
-    <div style={{ padding: 32 }}>
-      <h2 style={{ color: "#009688", marginBottom: 18 }}>Mes cultures en cours</h2>
+    <div className="agro-page-container">
+      <h2 className="agro-page-title">Mes cultures en cours</h2>
       <div style={{ display: "flex", flexWrap: "wrap" }}>
         {calendars.map(cal => (
           <CultureCard
@@ -64,19 +65,7 @@ function Cultures() {
           }}
         >
           {/* Description et détails à gauche */}
-          <div
-            style={{
-              background: "#fff",
-              borderRadius: 14,
-              boxShadow: "0 8px 32px -2px rgba(0,0,0,0.18)",
-              padding: 32,
-              minWidth: 320,
-              maxWidth: 420,
-              color: "#222",
-              fontFamily: "Poppins, sans-serif",
-              flex: "0 0 350px"
-            }}
-          >
+          <div className="agro-card" style={{minWidth: 320, maxWidth: 420, flex: "0 0 350px"}}>
             <h3 style={{ color: "#009688", marginBottom: 12 }}>
               {selectedCalendar.name}
             </h3>
@@ -115,19 +104,11 @@ function Cultures() {
               {tasks.length === 0 ? (
                 <div style={{ color: "#888", marginTop: 6 }}>Aucune tâche pour ce calendrier.</div>
               ) : (
-                <ul style={{ margin: "12px 0 0 0", padding: 0, listStyle: "none" }}>
+                <ul className="agro-task-list">
                   {tasks.map(task => (
                     <li
                       key={task.id}
-                      style={{
-                        background: "#f8f8f8",
-                        borderRadius: 8,
-                        marginBottom: 8,
-                        padding: "8px 12px",
-                        boxShadow: "0 2px 8px rgba(0,0,0,0.06)",
-                        display: "flex",
-                        flexDirection: "column"
-                      }}
+                      className="agro-task-item"
                     >
                       <span style={{ fontWeight: 600 }}>{task.title}</span>
                       <span style={{ fontSize: "0.95em", color: "#555" }}>

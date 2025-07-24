@@ -15,7 +15,7 @@ function AgroNavbar() {
           onClick={() => navigate('/agro/cultures')}
         >
           <span className="material-symbols-outlined agro-navbar-icon">spa</span>
-          <span className="agro-navbar-label">Cultures</span>
+          <span className="agro-navbar-label">Plantation</span>
         </div>
         <div
           className={`agro-navbar-tab${location.pathname === '/agro/calendriers' ? ' active' : ''}`}

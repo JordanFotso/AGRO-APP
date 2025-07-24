@@ -17,6 +17,7 @@
   min-height: 600px;
   max-height: 90vh;
   display: flex;
+  overflow-y: auto;
   flex-direction: column;
   position: relative;
 }

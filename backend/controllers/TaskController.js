@@ -1,12 +1,22 @@
 const { Task, Calendar } = require('../models');
 
 exports.getAll = async (req, res) => {
-  const tasks = await Task.findAll({ include: [Calendar] });
+  const tasks = await Task.findAll({
+    include: [{
+      model: Calendar,
+      attributes: ['name']
+    }]
+  });
   res.json(tasks);
 };
 
 exports.getOne = async (req, res) => {
-  const task = await Task.findByPk(req.params.id, { include: [Calendar] });
+  const task = await Task.findByPk(req.params.id, {
+    include: [{
+      model: Calendar,
+      attributes: ['name']
+    }]
+  });
   if (!task) return res.status(404).json({ error: 'Task not found' });
   res.json(task);
 };
