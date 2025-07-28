@@ -22,7 +22,7 @@ function App() {
       <Router>
         <div style={{ display: 'flex' }}>
           <Sidebar />
-          <div style={{ marginLeft: 80, flex: 1, height: '100vh' }}>
+          <div style={{ flex: 1, height: '100vh' }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/meteo" element={<Meteo />} />

@@ -1,76 +1,140 @@
-.profil-container {
-  max-width: 340px;
-  margin: 48px auto;
-  background: rgba(30,30,30,0.97);
-  color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 2px 16px rgba(0,0,0,0.22);
-  padding: 32px 24px;
-  font-family: 'Poppins', sans-serif;
+/* --- Import de la police (s'assurer qu'elle est dans index.html) --- */
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap'); */
+
+/* --- Variables pour un thème sombre cohérent --- */
+:root {
+  /* On réutilise la couleur primaire de la page d'accueil pour la cohérence */
+  --primary-color: #00796b; 
+  --primary-color-hover: #00897b;
+
+  --dark-bg: #121212; /* Un fond très sombre, standard pour les thèmes dark */
+  --dark-surface: #1e1e1e; /* La couleur de la carte */
+  --dark-border: #333333;
+  --dark-text-primary: #e0e0e0; /* Texte principal légèrement gris */
+  --dark-text-secondary: #a0a0a0; /* Texte pour les placeholders etc. */
+  --error-color: #ff5252;
 }
 
+/* --- Conteneur principal --- */
+.profil-container {
+  max-width: 400px; /* Un peu plus large pour plus de confort */
+  margin: 60px auto;
+  background: var(--dark-surface);
+  color: var(--dark-text-primary);
+  border-radius: 16px; /* Bords plus arrondis */
+  border: 1px solid var(--dark-border);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  padding: 40px 32px;
+  font-family: 'Poppins', sans-serif;
+  transition: all 0.2s ease-in-out;
+}
+
+.profil-container h2 {
+  text-align: center;
+  margin-bottom: 24px;
+  font-weight: 600;
+  font-size: 1.8rem;
+}
+
+/* --- Formulaire et champs --- */
 .profil-form {
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 20px; /* Plus d'espace entre les champs */
 }
 
 .profil-input {
-  padding: 10px;
-  border-radius: 6px;
-  border: 1px solid #333;
-  background: rgba(30,30,30,0.85);
-  color: #fff;
-  font-size: 16px;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: 1px solid var(--dark-border);
+  background: var(--dark-bg);
+  color: var(--dark-text-primary);
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
+.profil-input::placeholder {
+  color: var(--dark-text-secondary);
+}
+
+/* Effet de focus très important pour l'UX */
+.profil-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(0, 121, 107, 0.3); /* Aura lumineuse de la couleur primaire */
+}
+
+/* --- Bouton d'action --- */
 .profil-btn {
-  background: #7fffd4;
-  color: #18181b;
+  background: var(--primary-color);
+  color: #ffffff;
   border: none;
-  border-radius: 6px;
-  padding: 10px;
+  border-radius: 8px;
+  padding: 12px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  margin-top: 8px;
-  transition: background 0.2s;
+  margin-top: 12px;
+  transition: background-color 0.2s, transform 0.2s;
 }
 
 .profil-btn:hover {
-  background: #5ee6c4;
+  background: var(--primary-color-hover);
+  transform: translateY(-2px); /* Léger mouvement au survol */
 }
 
-.profil-error {
-  color: #ff6b6b;
-  margin-top: 8px;
-  font-size: 0.95rem;
-}
-
+/* --- Lien pour changer de mode (Connexion/Inscription) --- */
 .profil-switch {
-  margin-top: 18px;
+  margin-top: 24px;
   text-align: center;
   font-size: 0.95rem;
+  color: var(--dark-text-secondary);
 }
 
 .profil-link {
   background: none;
   border: none;
-  color: #7fffd4;
+  color: var(--primary-color);
   cursor: pointer;
   font-weight: 600;
-  text-decoration: underline;
-  font-size: 1rem;
+  text-decoration: none; /* On enlève le soulignement par défaut */
+  font-size: 0.95rem;
+  padding: 0;
+  transition: color 0.2s;
 }
 
+.profil-link:hover {
+  color: var(--primary-color-hover);
+  text-decoration: underline; /* On ajoute le soulignement au survol */
+}
+
+/* --- Message d'erreur --- */
+.profil-error {
+  color: var(--error-color);
+  margin-top: 12px;
+  font-size: 0.9rem;
+  text-align: center;
+  background-color: rgba(255, 82, 82, 0.1);
+  padding: 8px;
+  border-radius: 6px;
+}
+
+/* --- Vue utilisateur connecté --- */
 .profil-info {
   display: flex;
+  flex-direction: column; /* On aligne verticalement pour un look plus propre */
   align-items: center;
-  gap: 18px;
+  gap: 16px;
   margin-bottom: 24px;
+  text-align: center;
 }
 
 .profil-icon {
-  font-size: 48px;
-  color: #7fffd4;
+  font-size: 64px; /* Icône plus grande et impactante */
+  color: var(--primary-color);
+}
+
+.profil-info strong {
+  color: var(--dark-text-secondary);
 }

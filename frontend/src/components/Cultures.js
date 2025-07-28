@@ -39,7 +39,7 @@ function Cultures() {
         {calendars.map(cal => (
           <CultureCard
             key={cal.id}
-            name={cal.Culture.name}
+            name={cal.name}
             onClick={() => setSelectedCalendar(cal)}
             selected={selectedCalendar && selectedCalendar.id === cal.id}
           />

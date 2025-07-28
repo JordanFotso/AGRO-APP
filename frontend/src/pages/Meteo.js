@@ -10,6 +10,8 @@ import WeatherForecastTable from '../components/WeatherForecastTable';
 import LocationHeader from '../components/LocationHeader';
 import '../components/LocationHeader.css';
 import { UserContext } from '../UserContext';
+import { getAgglomerationName } from '../components/geolocation';
+import { getTimezoneForCity } from '../components/getTimezoneForCity';
 
 function Meteo() {
   const [position, setPosition] = useState([4.05, 11.7]);
@@ -17,29 +19,60 @@ function Meteo() {
 
   const [popupText, setPopupText] = useState('Vous êtes ici');
 
-  const handleSearchResult = (position, label, cityObj) => {
+  const handleSearchResult = async (position, label, cityObj) => {
     setPosition(position);
     setPopupText(label);
-    setCity(cityObj);
+
+    // Récupère l'heure locale pour la ville trouvée
+    const tzData = await getTimezoneForCity(cityObj.name || label);
+    if (tzData) {
+      setCity({
+        name: cityObj.name || label,
+        timezone: tzData.gmtOffset * 3600,
+        time: tzData.time
+      });
+    } else {
+      setCity({
+        name: cityObj.name || label,
+        timezone: 3600,
+        time: null
+      });
+    }
   };
 
   const [city, setCity] = useState({ name: 'Douala', country: 'CM', timezone: 3600 });
 
   const handleLocate = async (latlng) => {
     setPosition(latlng);
-    setPopupText('Vous êtes ici');
-    // Optionnel : requête API pour récupérer le nom du lieu et le fuseau horaire
-    // Exemple avec Nominatim ou Photon
-    const url = `https://photon.komoot.io/reverse?lat=${latlng[0]}&lon=${latlng[1]}`;
-    const res = await fetch(url);
-    const data = await res.json();
-    const label = data.features?.[0]?.properties?.label || 'Lieu courant';
-    setPopupText(label);
-    setCity({
-      name: label,
-      country: data.features?.[0]?.properties?.country || '',
-      timezone: 3600 // ou récupère le vrai fuseau si dispo
-    });
+    const name = await getAgglomerationName(latlng[0], latlng[1]);
+    setPopupText(name);
+
+    // Ajoute la récupération du fuseau horaire ici
+    const tzData = await getTimezoneForCity(name);
+    if (tzData) {
+      setCity({
+        name,
+        timezone: tzData.gmtOffset * 3600,
+        time: tzData.time
+      });
+    } else {
+      setCity({
+        name,
+        timezone: 3600,
+        time: null
+      });
+    }
+  };
+
+  const handleCityChange = async (cityName) => {
+    const tzData = await getTimezoneForCity(cityName);
+    if (tzData) {
+      setCity({
+        name: cityName,
+        timezone: tzData.gmtOffset * 3600, // en secondes
+        time: tzData.time // heure locale sous forme de string
+      });
+    }
   };
 
   // exemple d'utilisation

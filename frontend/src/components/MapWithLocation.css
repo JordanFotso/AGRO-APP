@@ -74,3 +74,8 @@
 .suggestion-list li:hover {
   background-color: #f0f0f0;
 }
+
+/* Ajoute dans MapWithLocation.css ou globalement */
+.leaflet-top.leaflet-left {
+  display: none !important;
+}

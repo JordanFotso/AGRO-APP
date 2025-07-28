@@ -1,4 +1,4 @@
-import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, Popup, useMap, useMapEvents, ZoomControl } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { useState, useRef,useEffect } from 'react';
 import L from 'leaflet';
@@ -137,11 +137,21 @@ function MapWithLocation({ position, setPosition, popupText }) {
   const markerRef = useRef();
 
   return (
-    <div style={{ position: 'relative' }}>
+    <div
+      style={{
+        position: 'fixed', // ou 'absolute' selon ton layout
+        top: 0,
+        left: 0,
+        width: '100vw',
+        height: '100vh',
+        zIndex: 1 // doit être inférieur à la sidebar et au sliding panel
+      }}
+    >
       <MapContainer
         center={position}
         zoom={16}
-        style={{ height: '100vh', width: '100%' }}
+        style={{ width: '100%', height: '100%' }}
+        zoomControl={false} // Désactive le zoomControl par défaut
       >
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -159,6 +169,7 @@ function MapWithLocation({ position, setPosition, popupText }) {
 
         <CenterMapOnPosition position={position} />
         <LocateButton onLocate={setPosition} />
+        <ZoomControl position="topright" /> {/* Ajoute le zoom à droite */}
       </MapContainer>
     </div>
   );

@@ -1,35 +1,113 @@
-.weather-details-table-container {
-  margin-top: 24px;
-  width: 100%;
+/* --- Variables du thème (pour la cohérence) --- */
+:root {
+  --primary-color: #00796b;
+  --primary-color-light: #4db6ac; /* Une version plus claire pour les textes */
+  --dark-bg: #121212;
+  --dark-surface: #1e1e1e; /* Fond de la carte principale */
+  --dark-surface-lighter: #2c2c2c; /* Pour le survol des lignes */
+  --dark-border: #333333;
+  --dark-text-primary: #e0e0e0;
+  --dark-text-secondary: #a0a0a0;
 }
 
-.weather-details-day {
-  margin-bottom: 32px;
+/* --- Conteneur Principal --- */
+.weather-details-container {
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--dark-surface);
+  border-radius: 16px;
+  border: 1px solid var(--dark-border);
+  padding: 24px 32px;
+  max-width: 900px;
+  margin: 40px auto;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
 }
 
-.weather-details-day-title {
-  font-size: 1.1rem;
-  color: #7fffd4;
+.details-title {
+  font-size: 1.5rem;
   font-weight: 600;
-  margin-bottom: 8px;
+  color: var(--dark-text-primary);
+  margin-bottom: 24px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--dark-border);
 }
 
-.weather-details-table {
+/* --- Animation d'apparition pour chaque jour --- */
+@keyframes fadeInSlideUp {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.weather-day-block {
+  margin-bottom: 32px;
+  /* Applique l'animation */
+  animation: fadeInSlideUp 0.5s ease-out forwards;
+}
+
+.weather-day-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--primary-color-light);
+  margin-bottom: 16px;
+}
+
+/* --- Le Tableau modernisé --- */
+.details-table {
   width: 100%;
-  border-collapse: collapse;
-  background: rgba(30,30,30,0.92);
-  color: #fff;
-  font-size: 15px;
-  margin-bottom: 8px;
+  border-collapse: collapse; /* Essentiel pour un look moderne */
 }
 
-.weather-details-table th, .weather-details-table td {
-  border: 1px solid #222;
-  padding: 6px 4px;
+.details-table th, 
+.details-table td {
+  padding: 12px 10px;
   text-align: center;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--dark-border); /* Lignes horizontales uniquement */
 }
 
-.weather-details-table th {
-  background: rgba(127,255,212,0.08);
-  color: #7fffd4;
+.details-table thead {
+  color: var(--dark-text-secondary);
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.details-table tbody tr {
+  transition: background-color 0.2s ease-in-out;
+}
+
+/* --- L'effet "voluptueux" au survol de la ligne --- */
+.details-table tbody tr:hover {
+  background-color: var(--dark-surface-lighter);
+}
+
+.details-table td {
+  color: var(--dark-text-primary);
+  font-size: 1rem;
+}
+
+/* Style spécifique pour les données importantes */
+.temp-data {
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.weather-icon {
+  width: 50px;
+  height: 50px;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4)); /* Ombre portée sur l'icône */
+}
+
+/* --- États de chargement et d'erreur --- */
+.loading-message,
+.error-message {
+  text-align: center;
+  padding: 40px;
+  color: var(--dark-text-secondary);
+  font-size: 1.1rem;
 }

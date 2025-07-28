@@ -1,0 +1,228 @@
+/* --- Google Font (à mettre dans le <head> de votre index.html si ce n'est pas déjà fait) --- */
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap'); */
+
+/* --- Variables de couleur pour une maintenance facile --- */
+:root {
+  --primary-color: #00796b; /* Un vert un peu plus sobre */
+  --primary-color-light: #e0f2f1;
+  --secondary-color: #f57c00; /* Une couleur d'accent (orange) pour les appels à l'action */
+  --text-color-dark: #212121;
+  --text-color-light: #616161;
+  --background-light: #f7f9fc;
+  --white: #ffffff;
+  --shadow-color: #00796b2f;
+  --shadow-color-hover: #00796b4a;
+}
+
+/* --- Style général de la page --- */
+.home-container {
+  background-color: var(--background-light);
+  min-height: 100vh;
+  padding: 60px 24px;
+  font-family: 'Poppins', sans-serif;
+  text-align: center;
+}
+
+/* --- Section Héros (Titre + description) --- */
+.hero-section {
+  max-width: 800px;
+  margin: 0 auto 60px auto;
+}
+
+/* EMPLACEMENT IMAGE 1: Bannière principale */
+.hero-image-container {
+    margin-bottom: 40px;
+    border-radius: 16px;
+    overflow: hidden; /* Pour que l'image respecte le border-radius */
+    box-shadow: 0 8px 30px -10px var(--shadow-color);
+}
+
+.hero-image {
+    width: 100%;
+    height: 300px; /* Ajustez la hauteur */
+    object-fit: cover; /* Assure que l'image couvre la zone sans se déformer */
+    display: block;
+}
+
+
+.hero-section h1 {
+  color: var(--primary-color);
+  font-weight: 700;
+  font-size: 3rem; /* Plus grand pour plus d'impact */
+  margin-bottom: 16px;
+}
+
+.hero-section p {
+  font-size: 1.25rem;
+  color: var(--text-color-light);
+  line-height: 1.6;
+}
+
+/* --- Grille des cartes de fonctionnalités --- */
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Grille responsive */
+  gap: 32px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* --- Style de chaque carte --- */
+.feature-card {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 4px 20px -5px var(--shadow-color);
+  padding: 32px 24px;
+  cursor: pointer;
+  transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid transparent; /* Pour éviter le décalage au survol */
+}
+
+.feature-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 30px -8px var(--shadow-color-hover);
+}
+
+/* EMPLACEMENT IMAGE 2: Icônes ou images dans les cartes */
+.feature-card .card-icon {
+  font-size: 48px; /* Taille de l'icône Material Icon */
+  color: var(--primary-color);
+  margin-bottom: 16px;
+}
+/* Si vous utilisez une image à la place de l'icône : */
+.feature-card .card-image {
+    width: 60px;
+    height: 60px;
+    margin-bottom: 16px;
+}
+
+.feature-card .card-title {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: var(--text-color-dark);
+  margin-bottom: 12px;
+}
+
+.feature-card .card-description {
+  color: var(--text-color-light);
+  font-size: 1rem;
+  line-height: 1.5;
+}
+
+/* --- Section de la liste des fonctionnalités --- */
+.main-features-section {
+  margin: 80px auto;
+  color: var(--text-color-light);
+  background: var(--white);
+  border-radius: 16px;
+  padding: 32px;
+  max-width: 900px;
+  box-shadow: 0 4px 20px -5px var(--shadow-color);
+}
+
+.main-features-section h2 {
+    color: var(--text-color-dark);
+    font-size: 1.5rem;
+    margin-bottom: 24px;
+}
+
+.main-features-section ul {
+  text-align: left;
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1rem;
+  color: var(--text-color-dark);
+  list-style: none; /* On enlève les puces par défaut */
+  padding: 0;
+}
+
+.main-features-section li {
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.main-features-section li::before {
+    content: '✓'; /* Ou une autre icône/emoji */
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin-right: 12px;
+    font-weight: bold;
+}
+
+/* --- Footer --- */
+.footer {
+  margin-top: 40px;
+  color: #9e9e9e;
+  font-size: 0.9rem;
+}
+
+
+/* --- Styles pour les animations à l'apparition --- */
+
+/* État initial : caché et légèrement décalé */
+.section-hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+/* État final : visible et à sa position normale */
+.section-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+/* --- Styles pour les NOUVELLES SECTIONS --- */
+
+/* Section "Comment ça marche" */
+.how-it-works-section {
+  padding: 80px 24px;
+  background-color: var(--white); /* ou var(--background-light) */
+  margin-top: 80px;
+}
+
+.how-it-works-section h2 {
+  color: var(--text-color-dark);
+  font-size: 2rem;
+  margin-bottom: 40px;
+}
+
+.steps-container {
+  display: flex;
+  justify-content: space-around;
+  gap: 32px;
+  flex-wrap: wrap; /* Pour la responsivité */
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.step {
+  text-align: center;
+  max-width: 300px;
+  flex: 1;
+}
+
+.step-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px -5px var(--shadow-color);
+  margin-bottom: 20px;
+}
+
+.step h3 {
+  font-size: 1.3rem;
+  color: var(--primary-color);
+  margin-bottom: 8px;
+}
+
+.step p {
+  color: var(--text-color-light);
+  line-height: 1.6;
+}

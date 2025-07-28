@@ -1,11 +1,16 @@
 import React, { useRef, useState } from 'react';
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-
+import { getAgglomerationName } from './geolocation';
 function LocationMarker({ position, setPosition }) {
   useMapEvents({
     click(e) {
-      setPosition({ lat: e.latlng.lat, lng: e.latlng.lng, name: '' });
+      (async () => {
+        const { lat, lng } = e.latlng;
+        const name = await getAgglomerationName(lat, lng);
+        console.log("Agglomération :", name);
+        setPosition({ lat: e.latlng.lat, lng: e.latlng.lng, name: name });
+      })();
     }
   });
   return <Marker position={[position.lat, position.lng]} />;
@@ -47,7 +52,7 @@ function AddCalendarStepLocation({ location, setLocation }) {
     setQuery(place.display_name);
     setSuggestions([]);
     if (mapRef.current) {
-      mapRef.current.setView([place.lat, place.lng], 13);
+      mapRef.current.setView([place.lat, place.lng], 13); // <-- recentre la carte sur le lieu sélectionné
     }
   };
 
@@ -120,7 +125,7 @@ function AddCalendarStepLocation({ location, setLocation }) {
         whenCreated={mapInstance => { mapRef.current = mapInstance; }}
       >
         <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-        <LocationMarker position={location} setPosition={loc => setLocation(l => ({ ...l, lat: loc.lat, lng: loc.lng }))} />
+        <LocationMarker position={location} setPosition={loc => setLocation(l => ({ ...l, lat: loc.lat, lng: loc.lng,name: loc.name }))} />
       </MapContainer>
       <div style={{
         position: "absolute",
