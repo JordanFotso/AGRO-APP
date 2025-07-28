@@ -5,7 +5,15 @@ import AddCultureCard from './AddCultureCard';
 import CultureInfo from './CultureInfo';
 import { UserContext } from '../UserContext';
 import AddCalendarModal from './AddCalendarModal';
-import './AgroPage.css';
+import './AgroPage.css'; // Import du CSS modernisé
+
+// Nouveau composant pour l'état vide
+const Placeholder = () => (
+  <div className="placeholder-container fade-in">
+    <span className="material-symbols-outlined placeholder-icon">grass</span>
+    <p className="placeholder-text">Sélectionnez une culture pour afficher ses détails.</p>
+  </div>
+);
 
 function Cultures() {
   const { user } = useContext(UserContext);
@@ -24,24 +32,29 @@ function Cultures() {
   }, [user]);
 
   useEffect(() => {
-    if (!selectedCalendar) return;
-    axios.get('/api/tasks')
-      .then(res => {
-        setTasks(res.data.filter(task => task.calendarId === selectedCalendar.id));
-      });
-    setShowCultureInfo(false); // reset culture info on calendar change
+    if (selectedCalendar) {
+      axios.get(`/api/tasks?calendarId=${selectedCalendar.id}`)
+        .then(res => setTasks(res.data));
+      setShowCultureInfo(false); // Réinitialise la vue à chaque changement
+    }
   }, [selectedCalendar]);
+
+  const handleSelectCalendar = (calendar) => {
+    setSelectedCalendar(null); // Force le re-rendu pour l'animation
+    setTimeout(() => setSelectedCalendar(calendar), 50); // Applique le nouveau calendrier après un court délai
+  };
 
   return (
     <div className="agro-page-container">
-      <h2 className="agro-page-title">Mes cultures en cours</h2>
-      <div style={{ display: "flex", flexWrap: "wrap" }}>
+      <h2 className="agro-page-title">Mes Cultures</h2>
+      
+      <div className="cultures-grid">
         {calendars.map(cal => (
           <CultureCard
             key={cal.id}
             name={cal.name}
-            onClick={() => setSelectedCalendar(cal)}
-            selected={selectedCalendar && selectedCalendar.id === cal.id}
+            onClick={() => handleSelectCalendar(cal)}
+            selected={selectedCalendar?.id === cal.id}
           />
         ))}
         <AddCultureCard onClick={() => setShowModal(true)} />
@@ -50,69 +63,46 @@ function Cultures() {
       {showModal && (
         <AddCalendarModal
           onClose={() => setShowModal(false)}
-          onSuccess={() => {/* recharger la liste si besoin */}}
+          onSuccess={() => {/* Logique de rechargement */}}
         />
       )}
 
-      {selectedCalendar && (
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "flex-start",
-            marginTop: 32,
-            gap: 0
-          }}
-        >
-          {/* Description et détails à gauche */}
-          <div className="agro-card" style={{minWidth: 320, maxWidth: 420, flex: "0 0 350px"}}>
-            <h3 style={{ color: "#009688", marginBottom: 12 }}>
-              {selectedCalendar.name}
-            </h3>
-            <div style={{ marginBottom: 8 }}>
-              <b>Culture :</b>{" "}
-              <span
-                style={{
-                  color: "#009688",
-                  textDecoration: "underline",
-                  cursor: "pointer",
-                  fontWeight: 600
-                }}
-                onClick={() => setShowCultureInfo(true)}
-                title="Voir les infos sur cette culture"
-              >
-                {selectedCalendar.Culture.name}
-              </span>
+      {!selectedCalendar ? (
+        <Placeholder />
+      ) : (
+        <div className="agro-content-grid fade-in">
+          <div className="details-card">
+            <div className="details-header">
+              <h3>{selectedCalendar.name}</h3>
             </div>
-            <div style={{ marginBottom: 8 }}>
-              <b>Description :</b> {selectedCalendar.Culture.description}
-            </div>
-            <div style={{ marginBottom: 8 }}>
-              <b>Période :</b> {selectedCalendar.startDate?.slice(0, 10)} → {selectedCalendar.endDate?.slice(0, 10)}
-            </div>
-            <div style={{ marginBottom: 8 }}>
-              <b>Lieu :</b> {selectedCalendar.locationName}
-            </div>
-            <div style={{ marginBottom: 8 }}>
-              <b>Coordonnées :</b> {selectedCalendar.latitude}, {selectedCalendar.longitude}
-            </div>
-            <div style={{ marginBottom: 8 }}>
-              <b>Utilisateur :</b> {user.name}
-            </div>
-            <div style={{ marginTop: 18 }}>
-              <b style={{ fontSize: "1.1em" }}>Tâches associées :</b>
+            <ul className="details-list">
+              <li className="detail-item">
+                <strong>Culture</strong>
+                <span className="culture-link" onClick={() => setShowCultureInfo(true)} title="Voir les infos sur cette culture">
+                  {selectedCalendar.Culture.name}
+                </span>
+              </li>
+              <li className="detail-item">
+                <strong>Période</strong>
+                <span>{new Date(selectedCalendar.startDate).toLocaleDateString('fr-FR')} → {new Date(selectedCalendar.endDate).toLocaleDateString('fr-FR')}</span>
+              </li>
+              <li className="detail-item">
+                <strong>Lieu</strong>
+                <span>{selectedCalendar.locationName}</span>
+              </li>
+            </ul>
+
+            <div className="tasks-section">
+              <h4 className="tasks-section-title">Tâches Associées</h4>
               {tasks.length === 0 ? (
-                <div style={{ color: "#888", marginTop: 6 }}>Aucune tâche pour ce calendrier.</div>
+                <p>Aucune tâche planifiée pour ce calendrier.</p>
               ) : (
                 <ul className="agro-task-list">
                   {tasks.map(task => (
-                    <li
-                      key={task.id}
-                      className="agro-task-item"
-                    >
-                      <span style={{ fontWeight: 600 }}>{task.title}</span>
-                      <span style={{ fontSize: "0.95em", color: "#555" }}>
-                        {task.date?.slice(0, 10)} — <i>{task.status}</i>
+                    <li key={task.id} className="agro-task-item">
+                      <span className="task-title">{task.title}</span>
+                      <span className="task-details">
+                        {new Date(task.date).toLocaleDateString('fr-FR')} <br/> <i>{task.status}</i>
                       </span>
                     </li>
                   ))}
@@ -120,12 +110,14 @@ function Cultures() {
               )}
             </div>
           </div>
-          {/* CultureInfo à droite de la description */}
+
           {showCultureInfo && (
-            <CultureInfo
-              cultureId={selectedCalendar.Culture.id}
-              onClose={() => setShowCultureInfo(false)}
-            />
+            <div className="fade-in">
+              <CultureInfo
+                cultureId={selectedCalendar.Culture.id}
+                onClose={() => setShowCultureInfo(false)}
+              />
+            </div>
           )}
         </div>
       )}

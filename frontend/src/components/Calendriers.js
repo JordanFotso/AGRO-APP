@@ -1,188 +1,125 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { UserContext } from '../UserContext';
 import axios from 'axios';
-import './AgroPage2.css';
-import './Calendrier.css';
+import './Calendriers.css'; // On utilise notre nouveau CSS
 import CalendrierDayModal from "./CalendrierDayModal";
 
-const monthNames = [
-  "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
-  "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"
-];
-
-function getDaysInMonth(year, month) {
-  return new Date(year, month + 1, 0).getDate();
-}
-
-function isInCulturePeriod(dateStr, cultures) {
-  return cultures.some(c =>
-    dateStr >= c.startDate && dateStr <= c.endDate
-  );
-}
+const monthNames = [ "Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre" ];
 
 function Calendriers() {
   const { user } = useContext(UserContext);
-  const today = new Date();
-  const [currentMonth, setCurrentMonth] = useState(today.getMonth());
-  const [currentYear, setCurrentYear] = useState(today.getFullYear());
+  const [currentDate, setCurrentDate] = useState(new Date());
   const [tasks, setTasks] = useState([]);
-  const [hoveredDate, setHoveredDate] = useState(null);
-  const [selectedTask, setSelectedTask] = useState(null);
-  const [cultures, setCultures] = useState([]);
+  const [calendars, setCalendars] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [calendars, setCalendars] = useState([]); // État pour les calendriers
+
+  const currentMonth = currentDate.getMonth();
+  const currentYear = currentDate.getFullYear();
 
   useEffect(() => {
-    if (user) {
-      axios.get('/api/tasks?userId=' + user.id)
-        .then(res => setTasks(res.data));
-    }
+    if (!user) return;
+    const fetchAllData = async () => {
+      // On utilise Promise.all pour des appels plus propres
+      const [tasksRes, calendarsRes] = await Promise.all([
+        axios.get('/api/tasks?userId=' + user.id),
+        axios.get('/api/calendars?userId=' + user.id)
+      ]);
+      setTasks(tasksRes.data);
+      setCalendars(calendarsRes.data);
+    };
+    fetchAllData();
   }, [user]);
 
-  // Charge les cultures de l'utilisateur (exemple API)
-  useEffect(() => {
-    if (user) {
-      axios.get('/api/cultures?userId=' + user.id)
-        .then(res => setCultures(res.data));
-    }
-  }, [user]);
-
-  // Charge les calendriers de l'utilisateur (exemple API)
-  useEffect(() => {
-    if (user) {
-      axios.get('/api/calendars?userId=' + user.id)
-        .then(res => setCalendars(res.data));
-    }
-  }, [user]);
-
-  const daysInMonth = getDaysInMonth(currentYear, currentMonth);
-  const firstDay = new Date(currentYear, currentMonth, 1).getDay(); // 0=dimanche
-
-  // Pour commencer le calendrier au lundi
-  const offset = (firstDay === 0 ? 6 : firstDay - 1);
-
-  const handlePrevMonth = () => {
-    if (currentMonth === 0) {
-      setCurrentMonth(11);
-      setCurrentYear(y => y - 1);
-    } else {
-      setCurrentMonth(m => m - 1);
-    }
+  const handleMonthChange = (offset) => {
+    setCurrentDate(prevDate => {
+      const newDate = new Date(prevDate);
+      newDate.setMonth(newDate.getMonth() + offset);
+      return newDate;
+    });
   };
 
-  const handleNextMonth = () => {
-    if (currentMonth === 11) {
-      setCurrentMonth(0);
-      setCurrentYear(y => y + 1);
-    } else {
-      setCurrentMonth(m => m + 1);
+  const renderCells = () => {
+    const today = new Date();
+    today.setHours(0,0,0,0); // Normalise pour la comparaison
+    const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+    const firstDayOfMonth = new Date(currentYear, currentMonth, 1).getDay();
+    const offset = (firstDayOfMonth === 0 ? 6 : firstDayOfMonth - 1);
+    
+    const rows = [];
+    let cells = [];
+
+    for (let i = 0; i < offset; i++) {
+      cells.push(<td key={`empty-${i}`} className="calendar-cell empty"></td>);
     }
+
+    for (let dayNum = 1; dayNum <= daysInMonth; dayNum++) {
+      const cellDate = new Date(currentYear, currentMonth, dayNum);
+      const dateStr = cellDate.toISOString().slice(0, 10);
+      
+      const dayTasks = tasks.filter(t => t.date?.slice(0, 10) === dateStr);
+      const dayCultures = calendars.filter(c => dateStr >= c.startDate?.slice(0, 10) && dateStr <= c.endDate?.slice(0, 10));
+      
+      const isToday = cellDate.getTime() === today.getTime();
+      const isPast = cellDate < today;
+
+      cells.push(
+        <td 
+          key={dateStr}
+          className={`calendar-cell ${isToday ? 'is-today' : ''} ${isPast ? 'is-past-day' : ''}`}
+          onClick={() => setSelectedDate(dateStr)}
+        >
+          <div className="day-number">{dayNum}</div>
+          <div className="events-container">
+            {dayCultures.slice(0, 1).map(culture => (
+              <div key={`culture-${culture.id}`} className="event-pill is-culture">
+                {culture.name}
+              </div>
+            ))}
+             {dayTasks.slice(0, 1).map(task => (
+              <div key={`task-${task.id}`} className="event-pill is-task">
+                {task.title}
+              </div>
+            ))}
+            {/* On peut ajouter une logique pour "+ X de plus" si nécessaire */}
+          </div>
+        </td>
+      );
+      
+      if (cells.length === 7 || dayNum === daysInMonth) {
+        rows.push(<tr key={`week-${rows.length}`}>{cells}</tr>);
+        cells = [];
+      }
+    }
+    return rows;
   };
 
   return (
-    <div className="agro-page-container">
-      <div className="agro-card" style={{ maxWidth: 1100 }}>
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 24 }}>
-          <button onClick={handlePrevMonth} className="calendrier-header-btn">←</button>
-          <h2 className="agro-page-title" style={{ margin: 0 }}>{monthNames[currentMonth]} {currentYear}</h2>
-          <button onClick={handleNextMonth} className="calendrier-header-btn">→</button>
-        </div>
-        <table className="calendrier-table">
-          <thead>
-            <tr>
-              {["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].map(j => (
-                <th key={j}>{j}</th>
-              ))}
-            </tr>
-          </thead>
-          <tbody>
-            {Array.from({ length: Math.ceil((daysInMonth + offset) / 7) }).map((_, weekIdx) => (
-              <tr key={weekIdx}>
-                {Array.from({ length: 7 }).map((_, dayIdx) => {
-                  const dayNum = weekIdx * 7 + dayIdx - offset + 1;
-                  const dateStr = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(dayNum).padStart(2, '0')}`;
-                  const dayTasks = tasks
-                    .filter(t => t.date && t.date.slice(0, 10) === dateStr)
-                    .sort((a, b) => {
-                      if (!a.hour && !b.hour) return 0;
-                      if (!a.hour) return 1;
-                      if (!b.hour) return -1;
-                      return a.hour.localeCompare(b.hour);
-                    });
-                  const isToday = dayNum === today.getDate() && currentMonth === today.getMonth() && currentYear === today.getFullYear();
-                  const cellColor =
-                    dayTasks.length === 0
-                      ? ""
-                      : dayTasks.length === 1
-                      ? "cell-task-low"
-                      : dayTasks.length === 2
-                      ? "cell-task-medium"
-                      : "cell-task-high";
-                  const isCulturePeriod = isInCulturePeriod(dateStr, cultures);
-                  return (
-                    <td
-                      key={dayIdx}
-                      className={`calendrier-cell${isToday ? " today" : ""} ${cellColor} ${isCulturePeriod ? "cell-culture-period" : ""}`}
-                      onClick={() => dayNum > 0 && dayNum <= daysInMonth && setSelectedDate(dateStr)}
-                      style={{ position: "relative" }}
-                    >
-                      {dayNum > 0 && dayNum <= daysInMonth && (
-                        <>
-                          <div className={`agro-calendar-day${isToday ? " today" : ""}`}>
-                            <div className={`calendrier-daynum${isToday ? " today" : ""}`}>
-                              {dayNum}
-                              {/* Widget pour date de début ou de fin de calendar */}
-                              {calendars.some(cal =>
-                                (cal.startDate && cal.startDate.slice(0, 10) === dateStr) ||
-                                (cal.endDate && cal.endDate.slice(0, 10) === dateStr)
-                              ) && (
-                                <span
-                                  className="material-symbols-outlined calendrier-calendar-widget"
-                                  title="Début ou fin de plantation"
-                                  style={{
-                                    fontSize: 18,
-                                    color: "#ff9800",
-                                    verticalAlign: "middle",
-                                    marginLeft: 4
-                                  }}
-                                >
-                                  event
-                                </span>
-                              )}
-                              {dayTasks.length > 0 && (
-                                <span
-                                  className="material-symbols-outlined calendrier-calendar-widget"
-                                  title="Tâches présentes"
-                                  style={{
-                                    fontSize: 18,
-                                    color: "#009688",
-                                    verticalAlign: "middle",
-                                    marginLeft: 4
-                                  }}
-                                >
-                                  event
-                                </span>
-                              )}
-                            </div>
-                          </div>
-                        </>
-                      )}
-                    </td>
-                  );
-                })}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-        {selectedDate && (
-          <CalendrierDayModal
-            date={selectedDate}
-            tasks={tasks}
-            calendars={calendars}
-            onClose={() => setSelectedDate(null)}
-          />
-        )}
+    <div className="calendar-container" >
+      <div className="calendar-header">
+        <button onClick={() => handleMonthChange(-1)} className="calendar-nav-btn">‹</button>
+        <h2 className="calendar-title">{monthNames[currentMonth]} {currentYear}</h2>
+        <button onClick={() => handleMonthChange(1)} className="calendar-nav-btn">›</button>
       </div>
+
+      <table className="calendar-grid">
+        <thead>
+          <tr>
+            {["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"].map(j => <th key={j}>{j}</th>)}
+          </tr>
+        </thead>
+        <tbody>
+          {renderCells()}
+        </tbody>
+      </table>
+
+      {selectedDate && (
+        <CalendrierDayModal
+          date={selectedDate}
+          tasks={tasks.filter(t => t.date?.slice(0, 10) === selectedDate)}
+          calendars={calendars} // La modale peut filtrer elle-même si besoin
+          onClose={() => setSelectedDate(null)}
+        />
+      )}
     </div>
   );
 }

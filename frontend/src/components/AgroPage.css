@@ -1,52 +1,161 @@
-/* Fond général et police */
+/* Fond général et police *//* --- Utilisation des variables de thème pour la cohérence --- */
+:root {
+  --primary-color: #00796b;
+  --text-color-dark: #212121;
+  --text-color-light: #616161;
+  --background-light: #f7f9fc;
+  --white: #ffffff;
+  --border-color: #e0e0e0;
+  --shadow-color-light: rgba(0, 121, 107, 0.1);
+  --shadow-color-dark: rgba(0, 0, 0, 0.1);
+}
+
+/* --- Conteneur de page principal --- */
 .agro-page-container {
-  position: relative;
-  padding: 0;
-  padding-top: 110px; /* hauteur de la navbar */
-  width: 100vw;
-  max-width: 100vw;
-  min-height: 100vh;
-  box-sizing: border-box;
-  background: #f6f8fa;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 24px;
   font-family: 'Poppins', sans-serif;
-  text-align: center;
-  overflow-x: hidden;
-  /* PAS de margin-left ni de padding-left */
 }
 
-/* Titres principaux */
 .agro-page-title {
-  color: #009688;
-  margin-bottom: 18px;
-  font-size: 2rem;
+  color: var(--primary-color);
+  font-size: 2.2rem;
   font-weight: 700;
+  margin-bottom: 24px;
+  text-align: center;
 }
 
-/* Cartes de contenu */
-.agro-card {
-  background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 8px 32px -2px rgba(0,0,0,0.18);
-  padding: 0px;
-  color: #222;
-  font-family: inherit;
-  margin: 20px 20px ;
-  padding: 5px;
+/* --- Grille pour la liste des cultures --- */
+.cultures-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  margin-bottom: 40px;
+  justify-content: center;
 }
 
-/* Listes de tâches */
+/* --- État Placeholder (quand rien n'est sélectionné) --- */
+.placeholder-container {
+  background-color: var(--white);
+  border: 2px dashed var(--border-color);
+  border-radius: 16px;
+  padding: 60px 40px;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.placeholder-icon {
+  font-size: 48px;
+  color: var(--primary-color);
+  opacity: 0.5;
+}
+
+.placeholder-text {
+  margin-top: 16px;
+  font-size: 1.2rem;
+  color: var(--text-color-light);
+}
+
+/* --- Grille principale pour le contenu (détails + infos) --- */
+.agro-content-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  gap: 32px;
+  align-items: flex-start; /* Important */
+}
+
+/* Animation d'apparition */
+.fade-in {
+  animation: fadeInSlideUp 0.5s ease-out forwards;
+}
+@keyframes fadeInSlideUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Carte d'information principale --- */
+.details-card {
+  background: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 6px 25px var(--shadow-color-dark);
+  padding: 24px 28px;
+  color: var(--text-color-dark);
+  border: 1px solid var(--border-color);
+  height: 100%; /* Pour remplir l'espace de la grille */
+}
+
+.details-header h3 {
+  color: var(--primary-color);
+  font-size: 1.6rem;
+  margin: 0 0 16px 0;
+}
+
+.details-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 1rem;
+}
+.detail-item:last-child {
+  border-bottom: none;
+}
+.detail-item strong {
+  color: var(--text-color-light);
+  margin-right: 12px;
+}
+.detail-item .culture-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+.detail-item .culture-link:hover {
+  border-color: var(--primary-color);
+}
+
+
+/* --- Liste des tâches améliorée --- */
+.tasks-section {
+  margin-top: 24px;
+}
+.tasks-section-title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text-color-dark);
+  margin-bottom: 12px;
+}
 .agro-task-list {
-  margin: 12px 0 0 0;
+  margin: 0;
   padding: 0;
   list-style: none;
-}
-.agro-task-item {
-  background: #f8f8f8;
-  border-radius: 8px;
-  margin-bottom: 8px;
-  padding: 8px 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
   display: flex;
   flex-direction: column;
+  gap: 10px;
 }
-
+.agro-task-item {
+  background: var(--background-light);
+  border-radius: 8px;
+  padding: 12px 16px;
+  border: 1px solid var(--border-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.agro-task-item .task-title {
+  font-weight: 600;
+}
+.agro-task-item .task-details {
+  font-size: 0.9rem;
+  color: var(--text-color-light);
+  text-align: right;
+}
